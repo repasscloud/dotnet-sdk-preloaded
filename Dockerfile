@@ -1,10 +1,10 @@
 # Use official .NET SDK base image
-FROM mcr.microsoft.com/dotnet/sdk:9.0.300-alpine3.21 AS base
+FROM docker pull mcr.microsoft.com/dotnet/sdk:9.0.300 AS base
 
 # Metadata
 LABEL maintainer="hello@repasscloud.com"
-LABEL version="1.1.1"
-LABEL description="Custom .NET SDK image (repasscloud/dotnet-sdk-preloaded-9.0.300-alpine3.21)"
+LABEL version="2.0.0"
+LABEL description="Custom .NET SDK image (repasscloud/dotnet-sdk-preloaded:9.0.300)"
 
 # Set working directory
 WORKDIR /
