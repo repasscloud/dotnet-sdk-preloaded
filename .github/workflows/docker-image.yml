@@ -1,30 +1,44 @@
-name: Publish dotnet-sdk-preloaded
+name: 🚀 Publish dotnet-sdk-preloaded
 
 on:
-  workflow_dispatch:  # Manual trigger
-  schedule:
-    - cron: '0 3 1 * *'  # Runs on the 1st of every month at 3am UTC
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'  # Matches version tags like v1.2.3
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build-and-push:
+    name: 🛠️ Build and Push Tagged Release
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for branch/tag resolution
+
+      - name: 🧠 Verify tag points to main
+        run: |
+          TAG_COMMIT=$(git rev-list -n 1 ${{ github.ref_name }})
+          MAIN_COMMIT=$(git rev-parse origin/main)
+
+          echo "Tag commit: $TAG_COMMIT"
+          echo "Main commit: $MAIN_COMMIT"
+
+          if [ "$TAG_COMMIT" != "$MAIN_COMMIT" ]; then
+            echo "❌ This tag does not point to the latest commit on main. Aborting."
+            exit 1
+          fi
+
+      - name: 🧱 Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: 🔐 Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push multi-arch builder image
+      - name: 🐳 Build and push multi-arch builder image
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -34,12 +48,10 @@ jobs:
             repasscloud/dotnet-sdk-preloaded:9.0.200-alpine
           platforms: linux/amd64,linux/arm64
 
-      - name: Create GitHub Release (on version tag)
+      - name: 📝 Create GitHub Release (on version tag)
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/v')
         with:
           name: Release ${{ github.ref_name }}
           tag_name: ${{ github.ref_name }}
           files: Dockerfile
           generate_release_notes: true
-
