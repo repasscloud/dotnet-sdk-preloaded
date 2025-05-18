@@ -51,7 +51,6 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
-            linux/arm/v7
           tags: repasscloud/dotnet-sdk-preloaded:${{ steps.version.outputs.sdk_version }}-${{ github.ref_name }}
 
       - name: 📝 Publish GitHub Release
