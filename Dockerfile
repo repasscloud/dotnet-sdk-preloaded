@@ -1,10 +1,10 @@
 # Use official .NET SDK base image
-FROM mcr.microsoft.com/dotnet/sdk:9.0.200-alpine3.20 AS base
+FROM mcr.microsoft.com/dotnet/sdk:9.0.300-alpine3.21 AS base
 
 # Metadata
 LABEL maintainer="hello@repasscloud.com"
-LABEL version="1.1.0"
-LABEL description="Custom .NET SDK image (dotnet/sdk:9.0.200-alpine3.20) with pre-installed NuGet packages"
+LABEL version="1.1.1"
+LABEL description="Custom .NET SDK image (repasscloud/dotnet-sdk-preloaded-9.0.300-alpine3.21)"
 
 # Set working directory
 WORKDIR /
