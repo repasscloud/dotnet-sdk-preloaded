@@ -13,7 +13,8 @@ WORKDIR /
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 # Install EF Core tools (global)
-RUN dotnet tool install --global dotnet-ef --version 9.0.5
+COPY install-ef.sh /tmp/install-ef.sh
+RUN chmod +x /tmp/install-ef.sh && /tmp/install-ef.sh
 
 # Create dummy project to pre-cache common packages
 RUN dotnet new console -n TempProject \

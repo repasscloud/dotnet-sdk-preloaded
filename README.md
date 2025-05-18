@@ -13,7 +13,8 @@ repasscloud/dotnet-sdk-preloaded:9.0.300
 The image is based on `mcr.microsoft.com/dotnet/sdk:9.0.300` and includes:
 
 - **.NET SDK 9.0.300**
-- **EF Core CLI tools (`dotnet-ef`) globally installed at version 9.0.5**
+- **EF Core CLI tools (`dotnet-ef`) globally installed at version 9.0.5**  
+  *(Note: not available on `arm/v7` due to upstream architecture limitations)*
 - **Essential packages pre-installed** via `dotnet add package`:
 
 ```bash
