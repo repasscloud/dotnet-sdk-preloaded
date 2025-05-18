@@ -1,5 +1,5 @@
 # Use official .NET SDK base image
-FROM docker pull mcr.microsoft.com/dotnet/sdk:9.0.300 AS base
+FROM mcr.microsoft.com/dotnet/sdk:9.0.300 AS base
 
 # Metadata
 LABEL maintainer="hello@repasscloud.com"
@@ -9,13 +9,19 @@ LABEL description="Custom .NET SDK image (repasscloud/dotnet-sdk-preloaded:9.0.3
 # Set working directory
 WORKDIR /
 
-# Create dummy project to cache NuGet packages
+# Ensure global tools path is available in all shells
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+# Install EF Core tools (global)
+RUN dotnet tool install --global dotnet-ef --version 9.0.5
+
+# Create dummy project to pre-cache common packages
 RUN dotnet new console -n TempProject \
     && cd TempProject \
     && dotnet add package Extensions.MudBlazor.StaticInput --version 3.2.0 \
     && dotnet add package HtmlAgilityPack --version 1.12.1 \
     && dotnet add package MudBlazor --version 8.6.0 \
-    && dotnet add package nanoid --version 3.1.0 \
+    && dotnet add package Nanoid --version 3.1.0 \
     && dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL --version 9.0.4 \
     && dotnet add package QRCoder --version 1.6.0 \
     && dotnet add package Swashbuckle.AspNetCore --version 8.1.1 \
