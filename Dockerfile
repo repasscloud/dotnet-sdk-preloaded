@@ -27,6 +27,7 @@ RUN dotnet new console -n TempProject \
     && dotnet add package QRCoder --version 1.6.0 \
     && dotnet add package Swashbuckle.AspNetCore --version 8.1.1 \
     && dotnet add package Swashbuckle.AspNetCore.Annotations --version 8.1.1 \
+    && dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 9.0.5 \
     && dotnet add package Microsoft.AspNetCore.Authentication.MicrosoftAccount --version 9.0.5 \
     && dotnet add package Microsoft.AspNetCore.Components.WebAssembly.Server --version 9.0.5 \
     && dotnet add package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore --version 9.0.5 \
