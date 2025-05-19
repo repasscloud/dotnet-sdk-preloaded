@@ -26,6 +26,7 @@ Npgsql.EntityFrameworkCore.PostgreSQL                 9.0.4
 QRCoder                                               1.6.0
 Swashbuckle.AspNetCore                                8.1.1
 Swashbuckle.AspNetCore.Annotations                    8.1.1
+Microsoft.AspNetCore.AUthentication.JwtBearer         9.0.5
 Microsoft.AspNetCore.Authentication.MicrosoftAccount  9.0.5
 Microsoft.AspNetCore.Components.WebAssembly.Server    9.0.5
 Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore  9.0.5
