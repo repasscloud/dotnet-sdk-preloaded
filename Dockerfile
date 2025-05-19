@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0.300 AS base
 
 # Metadata
 LABEL maintainer="hello@repasscloud.com"
-LABEL version="2.0.0"
+LABEL version="2.0.1"
 LABEL description="Custom .NET SDK image (repasscloud/dotnet-sdk-preloaded:9.0.300)"
 
 # Set working directory
