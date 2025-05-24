@@ -31,3 +31,29 @@ jobs:
 
       - name: ✅ Done
         run: echo "🎉 Docker image built and tagged as :dev (locally only)"
+
+  create_pr:
+    needs: build-dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Create or update PR
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch-token: ${{ secrets.GITHUB_TOKEN }}
+          title:        'Automated PR: dev → main'
+          body:         automerged
+          base:         main
+          branch:       dev
+
+      - name: Enable auto-merge
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token:                 ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number:   ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method:          merge
