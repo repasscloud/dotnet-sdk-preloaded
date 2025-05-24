@@ -1,9 +1,9 @@
 name: 🛠️ Build dotnet-sdk-preloaded (Dev Only)
 
 on:
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:
   schedule:
-    - cron: '0 3 1 * *'  # Runs on the 1st of every month at 3am UTC
+    - cron: '0 3 1 * *'
   push:
     branches: [dev]
   pull_request:
@@ -33,15 +33,18 @@ jobs:
         run: echo "🎉 Docker image built and tagged as :dev (locally only)"
 
   create_pr:
+    if: ${{ github.event_name != 'schedule' }}
+    name: 🔀 Create or Update PR
     needs: build-dev
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout dev
+      - name: 📥 Checkout dev
         uses: actions/checkout@v4
         with:
           ref: dev
 
-      - name: Create or update PR
+      - name: ✏️ Create or update PR
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
@@ -51,9 +54,9 @@ jobs:
           base:         main
           branch:       dev
 
-      - name: Enable auto-merge
+      - name: 🤖 Enable auto-merge
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token:                 ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number:   ${{ steps.cpr.outputs.pull-request-number }}
-          merge-method:          merge
+          token:               ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method:        merge
